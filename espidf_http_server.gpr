@@ -6,18 +6,16 @@
 
 with "config/espidf_http_server_config.gpr";
 
-with "a0b_common.gpr";
+with "espidf.gpr";
 
 library project ESPIDF_HTTP_Server is
 
    for Languages use ("Ada", "C");
    for Library_Name use "adaespidf_http_server";
-   for Library_Dir use ".libs/" & A0B_Common.Library_Dir_Suffix;
-   for Object_Dir use ".objs/" & A0B_Common.Object_Dir_Suffix;
+   for Library_Dir use ".libs/" & ESPIDF.Crate_Library_Dir;
+   for Object_Dir use ".objs/" & ESPIDF.Crate_Object_Dir;
    for Source_Dirs use ("source");
 
-   package Compiler is
-      for Switches ("Ada") use A0B_Common.Compiler_Switches_Ada;
-   end Compiler;
+   package Compiler renames ESPIDF.Compiler;
 
 end ESPIDF_HTTP_Server;
