@@ -1,0 +1,21 @@
+name = "espidf_http_server"
+version = "0.1.0-dev"
+website = "https://github.com/godunko/espidf_http_server"
+description = "Ada/ESP-IDF: bindings of HTTP Server"
+long-description = """
+Ada bindings for the ESP-IDF HTTP Server component, enabling web server capabilities, REST APIs, and URI handler registration on Espressif microcontrollers.
+"""
+
+authors = ["Vadim Godunko"]
+maintainers = ["Vadim Godunko <vgodunko@gmail.com>"]
+maintainers-logins = ["godunko"]
+licenses = "Apache-2.0 WITH LLVM-exception"
+tags = ["a0b", "embedded", "esp", "esp32", "espidf"]
+
+[configuration]
+generate_ada = false
+generate_c = false
+generate_gpr = true
+
+[[depends-on]]
+espidf = "*"
