@@ -8,6 +8,31 @@ with ESPIDF.Ada_ESP_Check_Error;
 
 package body ESPIDF.HTTP_Server is
 
+   ------------
+   -- Create --
+   ------------
+
+   function Create
+     (uri      : ESPIDF.C_Strings.const_char_ptr;
+      method   : httpd_method_t;
+      handler  : not null httpd_req_handler_t;
+      user_ctx : System.Address := System.Null_Address) return httpd_uri_t
+   is
+      procedure Internal
+        (Storage   : System.Address;
+         uri       : ESPIDF.C_Strings.const_char_ptr;
+         method    : httpd_method_t;
+         handler   : not null httpd_req_handler_t;
+         user_ctx  : System.Address)
+        with Import, Convention => C,
+             External_Name => "__ada_httpd_uri_t_create";
+
+   begin
+      return Result : httpd_uri_t do
+         Internal (Result.Storage'Address, uri, method, handler, user_ctx);
+      end return;
+   end Create;
+
    -----------------
    -- httpd_start --
    -----------------
