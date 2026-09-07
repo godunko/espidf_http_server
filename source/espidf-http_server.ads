@@ -13,6 +13,19 @@ package ESPIDF.HTTP_Server is
 
    type httpd_config_t is limited private;
 
+   type httpd_handle_t is limited private;
+
+   function httpd_start
+     (Handle : out httpd_handle_t;
+      Config : httpd_config_t) return esp_err_t
+     with Import, Convention => C, External_Name => "httpd_start";
+
+   procedure httpd_start
+     (Handle : out httpd_handle_t;
+      Config : httpd_config_t);
+
+   --  function httpd_register_uri_handler
+
 private
 
    sizeof_httpd_config_t : constant int
@@ -33,5 +46,7 @@ private
           Finalizable =>
             (Initialize           => Initialize,
              Relaxed_Finalization => True);
+
+   type httpd_handle_t is new System.Address;
 
 end ESPIDF.HTTP_Server;

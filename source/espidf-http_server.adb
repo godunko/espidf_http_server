@@ -4,7 +4,20 @@
 --  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 --
 
+with ESPIDF.Ada_ESP_Check_Error;
+
 package body ESPIDF.HTTP_Server is
+
+   -----------------
+   -- httpd_start --
+   -----------------
+
+   procedure httpd_start
+     (Handle : out httpd_handle_t;
+      Config : httpd_config_t) is
+   begin
+      Ada_ESP_Check_Error (httpd_start (Handle, Config));
+   end httpd_start;
 
    ----------------
    -- Initialize --
