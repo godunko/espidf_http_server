@@ -33,6 +33,17 @@ package body ESPIDF.HTTP_Server is
       end return;
    end Create;
 
+   --------------------------------
+   -- httpd_register_uri_handler --
+   --------------------------------
+
+   procedure httpd_register_uri_handler
+     (handle      : httpd_handle_t;
+      uri_handler : httpd_uri_t) is
+   begin
+      Ada_ESP_Check_Error (httpd_register_uri_handler (handle, uri_handler));
+   end httpd_register_uri_handler;
+
    -----------------
    -- httpd_start --
    -----------------

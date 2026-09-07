@@ -92,7 +92,7 @@ package ESPIDF.HTTP_Server is
    type httpd_uri_t is limited private;
 
    type httpd_req_handler_t is
-     access function (req : httpd_req_t) return esp_err_t
+     access function (req : in out httpd_req_t) return esp_err_t
        with Convention => C;
 
    function httpd_start
@@ -111,7 +111,15 @@ package ESPIDF.HTTP_Server is
       user_ctx : System.Address := System.Null_Address) return httpd_uri_t;
    --  Initialize object of `httpd_uri_t` to process requests.
 
-   --  function httpd_register_uri_handler
+   function httpd_register_uri_handler
+     (handle      : httpd_handle_t;
+      uri_handler : httpd_uri_t) return esp_err_t
+        with Import, Convention => C,
+             External_Name => "httpd_register_uri_handler";
+
+   procedure httpd_register_uri_handler
+     (handle      : httpd_handle_t;
+      uri_handler : httpd_uri_t);
 
 private
 
