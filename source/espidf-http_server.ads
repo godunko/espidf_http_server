@@ -163,6 +163,18 @@ package ESPIDF.HTTP_Server is
      (req  : in out httpd_req_t;
       mime : ESPIDF.C_Strings.const_char_ptr);
 
+   function httpd_resp_send
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_resp_send";
+
+   procedure httpd_resp_send
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t);
+
 private
 
    sizeof_httpd_config_t : constant int

@@ -57,6 +57,18 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error (httpd_register_uri_handler (handle, uri_handler));
    end httpd_register_uri_handler;
 
+   ---------------------
+   -- httpd_resp_send --
+   ---------------------
+
+   procedure httpd_resp_send
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t) is
+   begin
+      Ada_ESP_Check_Error (httpd_resp_send (req, buf, buf_len));
+   end httpd_resp_send;
+
    -------------------------
    -- httpd_resp_set_type --
    -------------------------
