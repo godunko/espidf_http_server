@@ -173,6 +173,18 @@ package ESPIDF.HTTP_Server is
      (req  : in out httpd_req_t;
       mime : ESPIDF.C_Strings.const_char_ptr);
 
+   function httpd_resp_set_hdr
+     (req   : in out httpd_req_t;
+      field : ESPIDF.C_Strings.const_char_ptr;
+      value : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_resp_set_hdr";
+
+   procedure httpd_resp_set_hdr
+     (req   : in out httpd_req_t;
+      field : ESPIDF.C_Strings.const_char_ptr;
+      value : ESPIDF.C_Strings.const_char_ptr);
+
    function httpd_resp_send
      (req     : in out httpd_req_t;
       buf     : System.Address;
