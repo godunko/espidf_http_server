@@ -83,6 +83,21 @@ package ESPIDF.HTTP_Server is
       LINK        => 31,
       UNLINK      => 32);
 
+   type httpd_err_code_t is
+     (HTTPD_500_INTERNAL_SERVER_ERROR,
+      HTTPD_501_METHOD_NOT_IMPLEMENTED,
+      HTTPD_505_VERSION_NOT_SUPPORTED,
+      HTTPD_400_BAD_REQUEST,
+      HTTPD_401_UNAUTHORIZED,
+      HTTPD_403_FORBIDDEN,
+      HTTPD_404_NOT_FOUND,
+      HTTPD_405_METHOD_NOT_ALLOWED,
+      HTTPD_408_REQ_TIMEOUT,
+      HTTPD_411_LENGTH_REQUIRED,
+      HTTPD_413_CONTENT_TOO_LARGE,
+      HTTPD_414_URI_TOO_LONG,
+      HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE) with Convention => C;
+
    type httpd_config_t is limited private;
 
    type httpd_handle_t is limited private;
@@ -94,6 +109,11 @@ package ESPIDF.HTTP_Server is
    type httpd_req_handler_t is
      access function (req : in out httpd_req_t) return esp_err_t
        with Convention => C;
+
+   type httpd_err_handler_func_t is
+     access function
+       (req   : in out httpd_req_t;
+        error : httpd_err_code_t) return esp_err_t with Convention => C;
 
    function httpd_start
      (Handle : out httpd_handle_t;
@@ -120,6 +140,18 @@ package ESPIDF.HTTP_Server is
    procedure httpd_register_uri_handler
      (handle      : httpd_handle_t;
       uri_handler : httpd_uri_t);
+
+   function httpd_register_err_handler
+     (handle      : httpd_handle_t;
+      error       : httpd_err_code_t;
+      handler_fn  : httpd_err_handler_func_t) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_register_err_handler";
+
+   procedure httpd_register_err_handler
+     (handle      : httpd_handle_t;
+      error       : httpd_err_code_t;
+      handler_fn  : httpd_err_handler_func_t);
 
 private
 

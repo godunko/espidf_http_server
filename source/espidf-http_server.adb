@@ -34,6 +34,19 @@ package body ESPIDF.HTTP_Server is
    end Create;
 
    --------------------------------
+   -- httpd_register_err_handler --
+   --------------------------------
+
+   procedure httpd_register_err_handler
+     (handle      : httpd_handle_t;
+      error       : httpd_err_code_t;
+      handler_fn  : httpd_err_handler_func_t) is
+   begin
+      Ada_ESP_Check_Error
+        (httpd_register_err_handler (handle, error, handler_fn));
+   end httpd_register_err_handler;
+
+   --------------------------------
    -- httpd_register_uri_handler --
    --------------------------------
 
