@@ -57,6 +57,17 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error (httpd_register_uri_handler (handle, uri_handler));
    end httpd_register_uri_handler;
 
+   -------------------------
+   -- httpd_resp_set_type --
+   -------------------------
+
+   procedure httpd_resp_set_type
+     (req  : in out httpd_req_t;
+      mime : ESPIDF.C_Strings.const_char_ptr) is
+   begin
+      Ada_ESP_Check_Error (httpd_resp_set_type (req, mime));
+   end httpd_resp_set_type;
+
    -----------------
    -- httpd_start --
    -----------------

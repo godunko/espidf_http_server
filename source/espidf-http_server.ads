@@ -153,6 +153,16 @@ package ESPIDF.HTTP_Server is
       error       : httpd_err_code_t;
       handler_fn  : httpd_err_handler_func_t);
 
+   function httpd_resp_set_type
+     (req  : in out httpd_req_t;
+      mime : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_resp_set_type";
+
+   procedure httpd_resp_set_type
+     (req  : in out httpd_req_t;
+      mime : ESPIDF.C_Strings.const_char_ptr);
+
 private
 
    sizeof_httpd_config_t : constant int
