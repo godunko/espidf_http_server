@@ -15,6 +15,11 @@ void __ada_HTTPD_DEFAULT_CONFIG(httpd_config_t *cfg)
     *cfg = (httpd_config_t)HTTPD_DEFAULT_CONFIG();
 }
 
+size_t __ada_Get_httpd_req_t_content_len(httpd_req_t *req)
+{
+    return req->content_len;
+}
+
 void __ada_httpd_uri_t_create(void* storage, const char* uri, httpd_method_t method, esp_err_t (*handler)(httpd_req_t*), void* user_ctx)
 {
     httpd_uri_t* result = (httpd_uri_t*)storage;

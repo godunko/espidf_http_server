@@ -135,6 +135,10 @@ package ESPIDF.HTTP_Server is
       user_ctx : System.Address := System.Null_Address) return httpd_uri_t;
    --  Initialize object of `httpd_uri_t` to process requests.
 
+   function Get_content_len (req : httpd_req_t) return size_t
+     with Import, Convention => C,
+          External_Name => "__ada_Get_httpd_req_t_content_len";
+
    function httpd_register_uri_handler
      (handle      : httpd_handle_t;
       uri_handler : httpd_uri_t) return esp_err_t
