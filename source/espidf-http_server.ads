@@ -98,6 +98,10 @@ package ESPIDF.HTTP_Server is
       HTTPD_414_URI_TOO_LONG,
       HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE) with Convention => C;
 
+   HTTPD_SOCK_ERR_FAIL      : constant int := -1;
+   HTTPD_SOCK_ERR_INVALID   : constant int := -2;
+   HTTPD_SOCK_ERR_TIMEOUT   : constant int := -3;
+
    type httpd_config_t is limited private;
 
    type httpd_handle_t is limited private;
