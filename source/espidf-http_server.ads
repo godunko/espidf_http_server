@@ -153,6 +153,12 @@ package ESPIDF.HTTP_Server is
       error       : httpd_err_code_t;
       handler_fn  : httpd_err_handler_func_t);
 
+   function httpd_req_recv
+     (request : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : size_t) return int
+     with Import, Convention => C, External_Name => "httpd_req_recv";
+
    function httpd_resp_set_status
      (request : in out httpd_req_t;
       status  : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
