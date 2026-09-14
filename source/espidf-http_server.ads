@@ -170,8 +170,7 @@ package ESPIDF.HTTP_Server is
    function httpd_resp_set_status
      (request : in out httpd_req_t;
       status  : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
-     with Import, Convention => C,
-          External_Name => "httpd_resp_set_status";
+     with Import, Convention => C, External_Name => "httpd_resp_set_status";
 
    procedure httpd_resp_set_status
      (request : in out httpd_req_t;
@@ -180,8 +179,7 @@ package ESPIDF.HTTP_Server is
    function httpd_resp_set_type
      (req  : in out httpd_req_t;
       mime : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
-     with Import, Convention => C,
-          External_Name => "httpd_resp_set_type";
+     with Import, Convention => C, External_Name => "httpd_resp_set_type";
 
    procedure httpd_resp_set_type
      (req  : in out httpd_req_t;
@@ -191,13 +189,23 @@ package ESPIDF.HTTP_Server is
      (req   : in out httpd_req_t;
       field : ESPIDF.C_Strings.const_char_ptr;
       value : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
-     with Import, Convention => C,
-          External_Name => "httpd_resp_set_hdr";
+     with Import, Convention => C, External_Name => "httpd_resp_set_hdr";
 
    procedure httpd_resp_set_hdr
      (req   : in out httpd_req_t;
       field : ESPIDF.C_Strings.const_char_ptr;
       value : ESPIDF.C_Strings.const_char_ptr);
+
+   function httpd_resp_send_err
+     (req   : in out httpd_req_t;
+      error : httpd_err_code_t;
+      msg   : ESPIDF.C_Strings.const_char_ptr) return esp_err_t
+     with Import, Convention => C, External_Name => "httpd_resp_send_err";
+
+   procedure httpd_resp_send_err
+     (req   : in out httpd_req_t;
+      error : httpd_err_code_t;
+      msg   : ESPIDF.C_Strings.const_char_ptr);
 
    function httpd_resp_send
      (req     : in out httpd_req_t;

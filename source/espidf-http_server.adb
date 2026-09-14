@@ -69,6 +69,18 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error (httpd_resp_send (req, buf, buf_len));
    end httpd_resp_send;
 
+   -------------------------
+   -- httpd_resp_send_err --
+   -------------------------
+
+   procedure httpd_resp_send_err
+     (req   : in out httpd_req_t;
+      error : httpd_err_code_t;
+      msg   : ESPIDF.C_Strings.const_char_ptr) is
+   begin
+      Ada_ESP_Check_Error (httpd_resp_send_err (req, error, msg));
+   end httpd_resp_send_err;
+
    ------------------------
    -- httpd_resp_set_hdr --
    ------------------------
