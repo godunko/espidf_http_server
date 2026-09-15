@@ -219,6 +219,14 @@ package ESPIDF.HTTP_Server is
       buf     : System.Address;
       buf_len : ssize_t);
 
+   function httpd_query_key_value
+     (qry      : ESPIDF.C_Strings.const_char_ptr;
+      key      : ESPIDF.C_Strings.const_char_ptr;
+      val      : ESPIDF.C_Strings.char_ptr;
+      val_size : size_t) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_query_key_value";
+
 private
 
    sizeof_httpd_config_t : constant int
