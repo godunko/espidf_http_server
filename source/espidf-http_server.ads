@@ -10,6 +10,8 @@ pragma Extensions_Allowed (On);
 with System;
 private with System.Storage_Elements;
 
+with A0B.Buffers;
+
 with ESPIDF.C_Strings;
 
 package ESPIDF.HTTP_Server is
@@ -166,6 +168,12 @@ package ESPIDF.HTTP_Server is
       buf     : System.Address;
       buf_len : size_t) return int
      with Import, Convention => C, External_Name => "httpd_req_recv";
+
+   function httpd_req_recv
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) return int;
+   --  Wrapper around `httpd_req_recv` that accepts an `Abstract_Buffer`
+   --  instead of raw address and length.
 
    function httpd_resp_set_status
      (request : in out httpd_req_t;

@@ -57,6 +57,28 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error (httpd_register_uri_handler (handle, uri_handler));
    end httpd_register_uri_handler;
 
+   --------------------
+   -- httpd_req_recv --
+   --------------------
+
+   function httpd_req_recv
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) return int
+   is
+      Length : int;
+
+   begin
+      Buffer.Set_Actual_Length (0);
+      Length :=
+        httpd_req_recv (request, Buffer.Address, size_t (Buffer.Capacity));
+
+      if Length > 0 then
+         Buffer.Set_Actual_Length (A0B.Buffers.Storage_Count (Length));
+      end if;
+
+      return Length;
+   end httpd_req_recv;
+
    ---------------------
    -- httpd_resp_send --
    ---------------------
