@@ -18,4 +18,5 @@ generate_c = false
 generate_gpr = true
 
 [[depends-on]]
+a0b_buffers = "*"
 espidf = "*"
