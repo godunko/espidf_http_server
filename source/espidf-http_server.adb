@@ -149,6 +149,32 @@ package body ESPIDF.HTTP_Server is
    end httpd_start;
 
    ----------------
+   -- httpd_stop --
+   ----------------
+
+   function httpd_stop (handle : in out httpd_handle_t) return esp_err_t is
+      function Imported
+        (handle : httpd_handle_t) return esp_err_t
+        with Import, Convention => C, External_Name => "httpd_stop";
+
+   begin
+      return Result : constant esp_err_t := Imported (handle) do
+         if Result = ESP_OK then
+            handle := httpd_handle_t (System.Null_Address);
+         end if;
+      end return;
+   end httpd_stop;
+
+   ----------------
+   -- httpd_stop --
+   ----------------
+
+   procedure httpd_stop (handle : in out httpd_handle_t) is
+   begin
+      Ada_ESP_Check_Error (httpd_stop (handle));
+   end httpd_stop;
+
+   ----------------
    -- Initialize --
    ----------------
 

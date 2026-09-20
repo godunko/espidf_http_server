@@ -130,6 +130,10 @@ package ESPIDF.HTTP_Server is
      (Handle : out httpd_handle_t;
       Config : httpd_config_t);
 
+   function httpd_stop (handle : in out httpd_handle_t) return esp_err_t;
+
+   procedure httpd_stop (handle : in out httpd_handle_t);
+
    function Create
      (uri      : ESPIDF.C_Strings.const_char_ptr;
       method   : httpd_method_t;
