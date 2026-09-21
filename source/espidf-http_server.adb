@@ -91,6 +91,41 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error (httpd_resp_send (req, buf, buf_len));
    end httpd_resp_send;
 
+   ---------------------------
+   -- httpd_resp_send_chunk --
+   ---------------------------
+
+   procedure httpd_resp_send_chunk
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t) is
+   begin
+      Ada_ESP_Check_Error (httpd_resp_send_chunk (req, buf, buf_len));
+   end httpd_resp_send_chunk;
+
+   ---------------------------
+   -- httpd_resp_send_chunk --
+   ---------------------------
+
+   function httpd_resp_send_chunk
+     (req    : in out httpd_req_t;
+      Buffer : A0B.Buffers.Abstract_Buffer'Class) return esp_err_t is
+   begin
+      return
+        httpd_resp_send_chunk (req, Buffer.Address, ssize_t (Buffer.Length));
+   end httpd_resp_send_chunk;
+
+   ---------------------------
+   -- httpd_resp_send_chunk --
+   ---------------------------
+
+   procedure httpd_resp_send_chunk
+     (req    : in out httpd_req_t;
+      Buffer : A0B.Buffers.Abstract_Buffer'Class) is
+   begin
+      Ada_ESP_Check_Error (httpd_resp_send_chunk (req, Buffer));
+   end httpd_resp_send_chunk;
+
    -------------------------
    -- httpd_resp_send_err --
    -------------------------

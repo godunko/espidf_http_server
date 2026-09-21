@@ -223,13 +223,31 @@ package ESPIDF.HTTP_Server is
      (req     : in out httpd_req_t;
       buf     : System.Address;
       buf_len : ssize_t) return esp_err_t
-     with Import, Convention => C,
-          External_Name => "httpd_resp_send";
+     with Import, Convention => C, External_Name => "httpd_resp_send";
 
    procedure httpd_resp_send
      (req     : in out httpd_req_t;
       buf     : System.Address;
       buf_len : ssize_t);
+
+   function httpd_resp_send_chunk
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t) return esp_err_t
+     with Import, Convention => C, External_Name => "httpd_resp_send_chunk";
+
+   procedure httpd_resp_send_chunk
+     (req     : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : ssize_t);
+
+   function httpd_resp_send_chunk
+     (req    : in out httpd_req_t;
+      Buffer : A0B.Buffers.Abstract_Buffer'Class) return esp_err_t;
+
+   procedure httpd_resp_send_chunk
+     (req    : in out httpd_req_t;
+      Buffer : A0B.Buffers.Abstract_Buffer'Class);
 
    function httpd_query_key_value
      (qry      : ESPIDF.C_Strings.const_char_ptr;
