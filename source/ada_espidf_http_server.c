@@ -8,7 +8,6 @@
 
 int __ada_sizeof_httpd_config_t = sizeof(httpd_config_t);
 int __ada_sizeof_httpd_req_t    = sizeof(httpd_req_t);
-int __ada_sizeof_httpd_uri_t    = sizeof(httpd_uri_t);
 
 void __ada_HTTPD_DEFAULT_CONFIG(httpd_config_t *cfg)
 {
@@ -20,13 +19,15 @@ size_t __ada_Get_httpd_req_t_content_len(httpd_req_t *req)
     return req->content_len;
 }
 
-void __ada_httpd_uri_t_create(void* storage, const char* uri, httpd_method_t method, esp_err_t (*handler)(httpd_req_t*), void* user_ctx)
+esp_err_t __ada_httpd_register_uri_handler(httpd_handle_t handle, const char* uri, httpd_method_t method, esp_err_t (*handler)(httpd_req_t*), void* user_ctx)
 {
-    httpd_uri_t* result = (httpd_uri_t*)storage;
-    *result = (httpd_uri_t){
+    httpd_uri_t uri_handler =
+    {
         .uri      = uri,
         .method   = method,
         .handler  = handler,
         .user_ctx = user_ctx
     };
+
+    return httpd_register_uri_handler(handle, &uri_handler);
 }

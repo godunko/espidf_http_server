@@ -110,8 +110,6 @@ package ESPIDF.HTTP_Server is
 
    type httpd_req_t is limited private;
 
-   type httpd_uri_t is limited private;
-
    type httpd_req_handler_t is
      access function (req : in out httpd_req_t) return esp_err_t
        with Convention => C;
@@ -134,26 +132,23 @@ package ESPIDF.HTTP_Server is
 
    procedure httpd_stop (handle : in out httpd_handle_t);
 
-   function Create
-     (uri      : ESPIDF.C_Strings.const_char_ptr;
-      method   : httpd_method_t;
-      handler  : not null httpd_req_handler_t;
-      user_ctx : System.Address := System.Null_Address) return httpd_uri_t;
-   --  Initialize object of `httpd_uri_t` to process requests.
-
    function Get_content_len (req : httpd_req_t) return size_t
      with Import, Convention => C,
           External_Name => "__ada_Get_httpd_req_t_content_len";
 
    function httpd_register_uri_handler
-     (handle      : httpd_handle_t;
-      uri_handler : httpd_uri_t) return esp_err_t
-        with Import, Convention => C,
-             External_Name => "httpd_register_uri_handler";
+     (handle   : httpd_handle_t;
+      uri      : ESPIDF.C_Strings.char_array_string;
+      method   : httpd_method_t;
+      handler  : not null httpd_req_handler_t;
+      user_ctx : System.Address := System.Null_Address) return esp_err_t;
 
    procedure httpd_register_uri_handler
-     (handle      : httpd_handle_t;
-      uri_handler : httpd_uri_t);
+     (handle   : httpd_handle_t;
+      uri      : ESPIDF.C_Strings.char_array_string;
+      method   : httpd_method_t;
+      handler  : not null httpd_req_handler_t;
+      user_ctx : System.Address := System.Null_Address);
 
    function httpd_register_err_handler
      (handle      : httpd_handle_t;
@@ -279,19 +274,6 @@ private
              Relaxed_Finalization => True);
 
    type httpd_handle_t is new System.Address;
-
-   sizeof_httpd_uri_t : constant int
-      with Import, Convention => C,
-           Link_Name => "__ada_sizeof_httpd_uri_t";
-
-   type httpd_uri_t_Storage is
-     new System.Storage_Elements.Storage_Array
-       (1 .. System.Storage_Elements.Storage_Count
-               (sizeof_httpd_uri_t)) with Convention => C;
-
-   type httpd_uri_t is limited record
-      Storage : httpd_uri_t_Storage := (others => 0);
-   end record;
 
    sizeof_httpd_req_t : constant int
       with Import, Convention => C,

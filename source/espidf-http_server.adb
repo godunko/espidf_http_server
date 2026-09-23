@@ -8,31 +8,6 @@ with ESPIDF.Ada_ESP_Check_Error;
 
 package body ESPIDF.HTTP_Server is
 
-   ------------
-   -- Create --
-   ------------
-
-   function Create
-     (uri      : ESPIDF.C_Strings.const_char_ptr;
-      method   : httpd_method_t;
-      handler  : not null httpd_req_handler_t;
-      user_ctx : System.Address := System.Null_Address) return httpd_uri_t
-   is
-      procedure Internal
-        (Storage   : System.Address;
-         uri       : ESPIDF.C_Strings.const_char_ptr;
-         method    : httpd_method_t;
-         handler   : not null httpd_req_handler_t;
-         user_ctx  : System.Address)
-        with Import, Convention => C,
-             External_Name => "__ada_httpd_uri_t_create";
-
-   begin
-      return Result : httpd_uri_t do
-         Internal (Result.Storage'Address, uri, method, handler, user_ctx);
-      end return;
-   end Create;
-
    --------------------------------
    -- httpd_register_err_handler --
    --------------------------------
@@ -50,11 +25,45 @@ package body ESPIDF.HTTP_Server is
    -- httpd_register_uri_handler --
    --------------------------------
 
-   procedure httpd_register_uri_handler
-     (handle      : httpd_handle_t;
-      uri_handler : httpd_uri_t) is
+   function httpd_register_uri_handler
+     (handle   : httpd_handle_t;
+      uri      : ESPIDF.C_Strings.char_array_string;
+      method   : httpd_method_t;
+      handler  : not null httpd_req_handler_t;
+      user_ctx : System.Address := System.Null_Address) return esp_err_t
+   is
+      function Imported
+        (handle   : httpd_handle_t;
+         uri      : ESPIDF.C_Strings.const_char_ptr;
+         method   : httpd_method_t;
+         handler  : not null httpd_req_handler_t;
+         user_ctx : System.Address) return esp_err_t
+        with Import, Convention => C,
+             External_Name => "__ada_httpd_register_uri_handler";
+
    begin
-      Ada_ESP_Check_Error (httpd_register_uri_handler (handle, uri_handler));
+      return
+        Imported
+          (handle,
+           ESPIDF.C_Strings.As_const_char_ptr (uri),
+           method,
+           handler,
+           user_ctx);
+   end httpd_register_uri_handler;
+
+   --------------------------------
+   -- httpd_register_uri_handler --
+   --------------------------------
+
+   procedure httpd_register_uri_handler
+     (handle   : httpd_handle_t;
+      uri      : ESPIDF.C_Strings.char_array_string;
+      method   : httpd_method_t;
+      handler  : not null httpd_req_handler_t;
+      user_ctx : System.Address := System.Null_Address) is
+   begin
+      Ada_ESP_Check_Error
+        (httpd_register_uri_handler (handle, uri, method, handler, user_ctx));
    end httpd_register_uri_handler;
 
    --------------------
