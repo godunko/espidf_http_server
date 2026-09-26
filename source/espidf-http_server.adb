@@ -8,6 +8,13 @@ with ESPIDF.Ada_ESP_Check_Error;
 
 package body ESPIDF.HTTP_Server is
 
+   function httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      buf     : System.Address;
+      buf_len : size_t) return esp_err_t
+     with Import, Convention => C,
+          External_Name => "httpd_req_get_url_query_str";
+
    --------------------------------
    -- httpd_register_err_handler --
    --------------------------------
@@ -65,6 +72,68 @@ package body ESPIDF.HTTP_Server is
       Ada_ESP_Check_Error
         (httpd_register_uri_handler (handle, uri, method, handler, user_ctx));
    end httpd_register_uri_handler;
+
+   ---------------------------------
+   -- httpd_req_get_url_query_str --
+   ---------------------------------
+
+   function httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      buf     : in out ESPIDF.C_Strings.char_array) return esp_err_t is
+   begin
+      return httpd_req_get_url_query_str (request, buf'Address, buf'Length);
+   end httpd_req_get_url_query_str;
+
+   ---------------------------------
+   -- httpd_req_get_url_query_str --
+   ---------------------------------
+
+   procedure httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      buf     : in out ESPIDF.C_Strings.char_array) is
+   begin
+      Ada_ESP_Check_Error (httpd_req_get_url_query_str (request, buf));
+   end httpd_req_get_url_query_str;
+
+   ---------------------------------
+   -- httpd_req_get_url_query_str --
+   ---------------------------------
+
+   function httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) return esp_err_t
+   is
+      use type A0B.Buffers.Storage_Count;
+
+      Length : constant A0B.Buffers.Storage_Count :=
+        A0B.Buffers.Storage_Count'Min
+          (A0B.Buffers.Storage_Count (httpd_req_get_url_query_len (request)),
+           Buffer.Capacity - 1);
+      --  `httpd_req_get_url_query_str` adds nul terminator character always,
+      --  while `Buffer` contains only real data, excluding the nul terminator.
+      --  So, maximum length of data is one less buffer's capacity.
+
+   begin
+      return Result : constant esp_err_t :=
+        httpd_req_get_url_query_str
+          (request, Buffer.Address, size_t (Buffer.Capacity))
+      do
+         Buffer.Set_Actual_Length
+           (if Result in ESP_OK | ESP_ERR_HTTPD_RESULT_TRUNC
+            then Length else 0);
+      end return;
+   end httpd_req_get_url_query_str;
+
+   ---------------------------------
+   -- httpd_req_get_url_query_str --
+   ---------------------------------
+
+   procedure httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) is
+   begin
+      Ada_ESP_Check_Error (httpd_req_get_url_query_str (request, Buffer));
+   end httpd_req_get_url_query_str;
 
    --------------------
    -- httpd_req_recv --

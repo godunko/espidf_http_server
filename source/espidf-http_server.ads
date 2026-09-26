@@ -167,6 +167,22 @@ package ESPIDF.HTTP_Server is
      with Import, Convention => C,
           External_Name => "httpd_req_get_url_query_len";
 
+   function httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      buf     : in out ESPIDF.C_Strings.char_array) return esp_err_t;
+
+   procedure httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      buf     : in out ESPIDF.C_Strings.char_array);
+
+   function httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) return esp_err_t;
+
+   procedure httpd_req_get_url_query_str
+     (request : in out httpd_req_t;
+      Buffer  : in out A0B.Buffers.Abstract_Buffer'Class);
+
    function httpd_req_recv
      (request : in out httpd_req_t;
       buf     : System.Address;
