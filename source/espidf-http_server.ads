@@ -16,6 +16,15 @@ with ESPIDF.C_Strings;
 
 package ESPIDF.HTTP_Server is
 
+   ESP_ERR_HTTPD_HANDLERS_FULL  : constant esp_err_t := 16#B001#;
+   ESP_ERR_HTTPD_HANDLER_EXISTS : constant esp_err_t := 16#B002#;
+   ESP_ERR_HTTPD_INVALID_REQ    : constant esp_err_t := 16#B003#;
+   ESP_ERR_HTTPD_RESULT_TRUNC   : constant esp_err_t := 16#B004#;
+   ESP_ERR_HTTPD_RESP_HDR       : constant esp_err_t := 16#B005#;
+   ESP_ERR_HTTPD_RESP_SEND      : constant esp_err_t := 16#B006#;
+   ESP_ERR_HTTPD_ALLOC_MEM      : constant esp_err_t := 16#B007#;
+   ESP_ERR_HTTPD_TASK           : constant esp_err_t := 16#B008#;
+
    type httpd_method_t is
      (DELETE,
       GET,
