@@ -1,9 +1,15 @@
 name = "espidf_http_server"
 version = "0.1.0-dev"
 website = "https://github.com/godunko/espidf_http_server"
-description = "Ada/ESP-IDF: bindings of HTTP Server"
+description = "Ada/ESP-IDF: HTTP Server bindings"
 long-description = """
-Ada bindings for the ESP-IDF HTTP Server component, enabling web server capabilities, REST APIs, and URI handler registration on Espressif microcontrollers.
+Ada bindings for the ESP-IDF HTTP Server component (`esp_http_server`).
+
+Covers:
+- starting and stopping the server;
+- registration of URI and error handlers;
+- reading request body and URL query parameters;
+- sending responses: status, headers, content type, complete and chunked bodies, errors.
 """
 
 authors = ["Vadim Godunko"]
