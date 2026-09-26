@@ -162,6 +162,11 @@ package ESPIDF.HTTP_Server is
       error       : httpd_err_code_t;
       handler_fn  : httpd_err_handler_func_t);
 
+   function httpd_req_get_url_query_len
+     (request : in out httpd_req_t) return size_t
+     with Import, Convention => C,
+          External_Name => "httpd_req_get_url_query_len";
+
    function httpd_req_recv
      (request : in out httpd_req_t;
       buf     : System.Address;
