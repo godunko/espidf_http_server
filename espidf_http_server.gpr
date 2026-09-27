@@ -10,7 +10,7 @@ with "espidf.gpr";
 
 library project ESPIDF_HTTP_Server is
 
-   for Languages use ("Ada", "C");
+   for Languages use ESPIDF.Crate_Languages_Ada_C;
    for Library_Name use "adaespidf_http_server";
    for Library_Dir use ESPIDF.Crate_Library_Dir;
    for Object_Dir use ESPIDF.Crate_Object_Dir;
