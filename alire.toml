@@ -1,5 +1,5 @@
 name = "espidf_http_server"
-version = "0.1.0-dev"
+version = "0.2.0-dev"
 website = "https://github.com/godunko/espidf_http_server"
 description = "Ada/ESP-IDF: HTTP Server bindings"
 long-description = """
