@@ -4,6 +4,8 @@
 --  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 --
 
+with A0B.Storage;
+
 with ESPIDF.Ada_ESP_Check_Error;
 
 package body ESPIDF.HTTP_Server is
@@ -103,11 +105,11 @@ package body ESPIDF.HTTP_Server is
      (request : in out httpd_req_t;
       Buffer  : in out A0B.Buffers.Abstract_Buffer'Class) return esp_err_t
    is
-      use type A0B.Buffers.Storage_Count;
+      use type A0B.Storage.Storage_Count;
 
-      Length : constant A0B.Buffers.Storage_Count :=
-        A0B.Buffers.Storage_Count'Min
-          (A0B.Buffers.Storage_Count (httpd_req_get_url_query_len (request)),
+      Length : constant A0B.Storage.Storage_Count :=
+        A0B.Storage.Storage_Count'Min
+          (A0B.Storage.Storage_Count (httpd_req_get_url_query_len (request)),
            Buffer.Capacity - 1);
       --  `httpd_req_get_url_query_str` adds nul terminator character always,
       --  while `Buffer` contains only real data, excluding the nul terminator.
@@ -151,7 +153,7 @@ package body ESPIDF.HTTP_Server is
         httpd_req_recv (request, Buffer.Address, size_t (Buffer.Capacity));
 
       if Length > 0 then
-         Buffer.Set_Actual_Length (A0B.Buffers.Storage_Count (Length));
+         Buffer.Set_Actual_Length (A0B.Storage.Storage_Count (Length));
       end if;
 
       return Length;
